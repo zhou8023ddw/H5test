@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>拼图游戏</title>
+    <script src="js/lufylegend-1.10.1.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            overflow: hidden;
+        }
+    </style>
+    <!--项目代码-->
+</head>
+<body>
+<div id="myGame"></div>
+<script src="js/game.js"></script>
+<script src="js/imgData.js"></script>
+<script>
+    var h5_config={
+        speed           :50,
+        width           :window.innerWidth,
+        height          :window.innerHeight
+    };
+    var game,loadingLayer,backLayer,startLayer,gameLayer,gameOverLayer;
+    var dataObject;
+    //init参数：游戏速度、穿入div的id、游戏界面的宽、游戏界面的高、游戏初始化完成后调用函数
+    LInit(h5_config.speed,"myGame",h5_config.width,h5_config.height,main);
+    function main() {
+        /** 全屏设置 */
+        if (LGlobal.mobile) {
+            LGlobal.stageScale = LStageScaleMode.SHOW_ALL;
+        }
+        LGlobal.screen(LGlobal.FULL_SCREEN);
+         //背景层初始化
+        backLayer=new LSprite();
+        //给背景添加颜色
+        backLayer.graphics.drawRect(1,"#000",[0,0,h5_config.width,h5_config.height],true,"#000");
+        //背景显示
+        addChild(backLayer);
+        //加载进度
+        loadingLayer=new LoadingSample4();
+        backLayer.addChild(loadingLayer);
+        LLoadManage.load(imgData,function (progress) {
+           loadingLayer.setProgress(progress);
+        },function (result) {
+            dataObject=result;
+            backLayer.removeChild(loadingLayer);
+            /* 保存位图数据，方便后续使用 */
+            imglist = new LBitmapData(result["img_"+(Math.ceil(Math.random()*7)-1)+""]);
+            game = new GameOne();
+        });
+      }
+</script>
+</body>
+</html>
