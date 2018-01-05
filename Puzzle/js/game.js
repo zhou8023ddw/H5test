@@ -162,9 +162,9 @@ GameOne.prototype={
     showThumbnail:function () {
         //显示完整图
         var thumbnail = new LBitmap(imglist);
-        thumbnail.scaleX = 0.8;
-        thumbnail.scaleY = 0.8;
-        thumbnail.x = (LGlobal.width-h5_config.width *0.8)/2;
+        thumbnail.scaleX = h5_config.width/thumbnail.width*thumbnail.width*0.8;
+        thumbnail.scaleY = h5_config.width/thumbnail.width*thumbnail.width*0.8;
+        thumbnail.x = (h5_config.width - h5_config.width/thumbnail.width*thumbnail.width*0.8)/2;
         thumbnail.y = h5_config.height/4-40;
         gameOverLayer.addChild(thumbnail);
     }
